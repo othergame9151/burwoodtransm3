@@ -27,12 +27,6 @@ function initContactForm() {
   
   if (!enquiryForm) return;
 
-// Initialize form handling
-function initContactForm() {
-  const enquiryForm = document.querySelector("#enquiry-form");
-  
-  if (!enquiryForm) return;
-
   const fields = [
     {
       id: "name",
