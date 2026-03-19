@@ -88,7 +88,6 @@
   <header class="site-header" id="top">
     <div class="container header-inner">
       <a class="brand" href="#top" aria-label="Burwood Mechanics & Transmission home">
-        <span class="brand-mark" aria-hidden="true">B</span>
         <span class="brand-text">
           <strong>Burwood Mechanics</strong>
           <span>&amp; Transmission</span>
@@ -122,12 +121,12 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <p class="eyebrow">Transmission Specialist Burwood</p>
-          <h1>Trusted transmission rebuilds, repairs and honest mechanical service in Burwood.</h1>
+          <h1>Transmission and mechanic service.</h1>
           <p class="hero-lead">Burwood Mechanics &amp; Transmission is known across Burwood, Strathfield and the Sydney Inner West for quality transmission work, fair advice and dependable repairs on classic cars, family vehicles, 4WDs and performance cars.</p>
           <div class="hero-points" aria-label="Business highlights">
             <span>4.6 star Google rating</span>
-            <span>Highly regarded mechanic Dave</span>
-            <span>Classic and vintage vehicle experience</span>
+            <span>Transmission specialists</span>
+            <span>Trusted by classic and everyday drivers</span>
           </div>
           <div class="hero-actions">
             <a class="button button-primary" href="tel:0405399973">Call Now</a>
@@ -357,7 +356,7 @@
             <span>Classic car servicing, Inner West</span>
           </article>
           <article class="testimonial-card">
-            <div class="stars" aria-label="4 star review">★★★★☆</div>
+            <div class="stars" aria-label="5 star review">★★★★★</div>
             <p>Good local mechanic with straightforward pricing and clear communication. They diagnosed a driveline problem that another workshop missed and got the car back on the road quickly.</p>
             <strong>Sarah L.</strong>
             <span>General mechanical repairs, Strathfield</span>
@@ -416,7 +415,13 @@
           </div>
         </div>
 
-        <form class="contact-form" id="enquiry-form" novalidate>
+        <form class="contact-form" id="enquiry-form" name="service-enquiry" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="service-enquiry">
+          <input type="hidden" name="subject" value="New enquiry from Burwood Mechanics &amp; Transmission website">
+          <p class="form-hidden">
+            <label for="bot-field">Leave this field empty</label>
+            <input id="bot-field" name="bot-field" type="text" autocomplete="off" tabindex="-1">
+          </p>
           <div class="form-row">
             <label for="name">Name</label>
             <input id="name" name="name" type="text" autocomplete="name" required>
@@ -443,6 +448,7 @@
           </div>
           <button class="button button-primary button-full" type="submit">Send Enquiry</button>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          <p class="form-note">Your enquiry is sent securely to the workshop through the website contact form.</p>
         </form>
       </div>
     </section>

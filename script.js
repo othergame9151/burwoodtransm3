@@ -46,6 +46,11 @@ if (enquiryForm) {
 
   const formStatus = document.querySelector("#form-status");
 
+  const encode = (data) =>
+    Object.keys(data)
+      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+      .join("&");
+
   const setFieldState = (fieldId, isValid, message = "") => {
     const input = document.querySelector(`#${fieldId}`);
     const error = document.querySelector(`#${fieldId}-error`);
@@ -108,10 +113,32 @@ if (enquiryForm) {
       return;
     }
 
-    formStatus.textContent = "Thanks, your enquiry is ready to send. Connect this form to your preferred email or CRM endpoint for production submissions.";
-    formStatus.classList.add("is-success");
-    enquiryForm.reset();
+    formStatus.textContent = "Sending your enquiry...";
+    formStatus.classList.remove("is-success");
 
-    fields.forEach(({ id }) => setFieldState(id, true, ""));
+    const formData = new FormData(enquiryForm);
+    const payload = {};
+
+    formData.forEach((value, key) => {
+      payload[key] = value;
+    });
+
+    fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: encode(payload)
+    })
+      .then(() => {
+        formStatus.textContent = "Thanks, your enquiry has been sent. The workshop will be in touch soon.";
+        formStatus.classList.add("is-success");
+        enquiryForm.reset();
+        fields.forEach(({ id }) => setFieldState(id, true, ""));
+      })
+      .catch(() => {
+        formStatus.textContent = "There was a problem sending your enquiry. Please call 0405 399 973.";
+        formStatus.classList.remove("is-success");
+      });
   });
 }
