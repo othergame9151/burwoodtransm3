@@ -1,7 +1,10 @@
-const navToggle = document.querySelector(".nav-toggle");
-const siteNav = document.querySelector(".site-nav");
+// Initialize navigation toggle
+function initNavigation() {
+  const navToggle = document.querySelector(".nav-toggle");
+  const siteNav = document.querySelector(".site-nav");
 
-if (navToggle && siteNav) {
+  if (!navToggle || !siteNav) return;
+
   navToggle.addEventListener("click", () => {
     const isOpen = navToggle.getAttribute("aria-expanded") === "true";
     navToggle.setAttribute("aria-expanded", String(!isOpen));
@@ -18,9 +21,18 @@ if (navToggle && siteNav) {
   });
 }
 
-const enquiryForm = document.querySelector("#enquiry-form");
+// Initialize form handling
+function initContactForm() {
+  const enquiryForm = document.querySelector("#enquiry-form");
+  
+  if (!enquiryForm) return;
 
-if (enquiryForm) {
+// Initialize form handling
+function initContactForm() {
+  const enquiryForm = document.querySelector("#enquiry-form");
+  
+  if (!enquiryForm) return;
+
   const fields = [
     {
       id: "name",
@@ -113,6 +125,12 @@ if (enquiryForm) {
       return;
     }
 
+    // Disable submit button while sending
+    const submitBtn = enquiryForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
     formStatus.textContent = "Sending your enquiry...";
     formStatus.classList.remove("is-success");
 
@@ -123,7 +141,8 @@ if (enquiryForm) {
       payload[key] = value;
     });
 
-    fetch("/", {
+    // For Netlify forms, POST to the form's action or current page
+    fetch(enquiryForm.getAttribute("action") || ".", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -135,10 +154,31 @@ if (enquiryForm) {
         formStatus.classList.add("is-success");
         enquiryForm.reset();
         fields.forEach(({ id }) => setFieldState(id, true, ""));
+        
+        // Reset button
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Form submission error:", error);
         formStatus.textContent = "There was a problem sending your enquiry. Please call 0405 399 973.";
         formStatus.classList.remove("is-success");
+        
+        // Reset button
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
       });
   });
+}
+
+// Initialize all features when DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    initNavigation();
+    initContactForm();
+  });
+} else {
+  // DOM is already ready
+  initNavigation();
+  initContactForm();
 }

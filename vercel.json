@@ -1,0 +1,5 @@
+{
+  "buildCommand": "echo 'Site is ready for deployment'",
+  "outputDirectory": ".",
+  "installCommand": "echo 'No dependencies required'"
+}

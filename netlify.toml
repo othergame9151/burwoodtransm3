@@ -1,0 +1,33 @@
+[build]
+  command = "echo 'Site is ready for deployment'"
+  publish = "."
+
+# Redirect trailing slashes for clean URLs
+[[redirects]]
+  from = "/:path/"
+  to = "/:path"
+  status = 301
+
+# Form configuration
+[functions]
+  directory = "netlify/functions"
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.{css,js}"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
